@@ -1,4 +1,13 @@
-module String where
+module String
+    ( isEmpty, length, reverse, repeat
+    , cons, uncons, fromChar, append, concat, split, join, words, lines
+    , slice, left, right, dropLeft, dropRight
+    , contains, startsWith, endsWith, indexes, indices
+    , toInt, toFloat, toList, fromList
+    , toUpper, toLower, pad, padLeft, padRight, trim, trimLeft, trimRight
+    , map, filter, foldl, foldr, any, all
+    ) where
+
 {-| A built-in representation for efficient string manipulation. String literals
 are enclosed in `"double quotes"`. Strings are *not* lists of characters.
 
@@ -29,10 +38,9 @@ Cosmetic operations such as padding with extra characters or trimming whitespace
 -}
 
 import Native.String
-import Basics (not, (<<))
 import Char
-import Maybe (Maybe)
-import Result (Result)
+import Maybe exposing (Maybe)
+import Result exposing (Result)
 
 
 {-| Determine if a string is empty.

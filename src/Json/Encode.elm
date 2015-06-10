@@ -1,12 +1,12 @@
 
 module Json.Encode where
 
-{-| Library for turning Elm values into JSON values.
+{-| Library for turning Elm values into Json values.
 
 # Encoding
 @docs encode
 
-# Primatives
+# Primitives
 @docs string, int, float, bool, null
 
 # Arrays
@@ -16,7 +16,7 @@ module Json.Encode where
 @docs object
 -}
 
-import Array (Array)
+import Array exposing (Array)
 import Native.Json
 
 

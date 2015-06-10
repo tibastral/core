@@ -14,10 +14,10 @@ To learn about text fields, see the
 
 -}
 
-import Signal
-import Graphics.Element (Element)
+import Graphics.Element exposing (Element)
 import Native.Graphics.Input
-import Text -- used internally
+import Native.Text
+import Signal
 
 
 {-| Create a standard button. The following example begins making a basic

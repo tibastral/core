@@ -1,5 +1,5 @@
 module Json.Decode where
-{-| A way to turn JSON strings and JS values into Elm values.
+{-| A way to turn Json values into Elm values.
 
 # Run a Decoder
 @docs decodeString, decodeValue
@@ -25,18 +25,17 @@ module Json.Decode where
 
 
 import Native.Json
-import Array (Array)
-import Dict
-import Dict (Dict)
-import Json.Encode as JsonEncode
+import Array exposing (Array)
+import Dict exposing (Dict)
+import Json.Encode as JsEncode
 import List
-import Maybe (Maybe)
-import Result (Result)
+import Maybe exposing (Maybe)
+import Result exposing (Result)
 
 
 type Decoder a = Decoder
 
-type alias Value = JsonEncode.Value
+type alias Value = JsEncode.Value
 
 
 {-| Transform the value returned by a decoder. Most useful when paired with
@@ -129,7 +128,7 @@ multiple fields from an object.
 
     type alias Task = { task : String, id : Int, completed : Bool }
 
-    point : Decoder (Float,Float)
+    point : Decoder Task
     point =
         object3 Task
           ("task" := string)
@@ -333,7 +332,7 @@ maybe : Decoder a -> Decoder (Maybe a)
 maybe =
     Native.Json.decodeMaybe
 
-  
+
 {-| Bring in an arbitrary JSON value. Useful if you need to work with crazily
 formatted data. For example, this lets you create a parser for "variadic" lists
 where the first few types are different, followed by 0 or more of the same

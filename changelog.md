@@ -1,3 +1,41 @@
+# 0.15
+
+### Module Changes
+
+  * Rename `Json.Decode` to `JavaScript.Decode`
+  * Rename `Json.Encode` to `JavaScript.Encode`
+  * Move `Http` to `elm-http` package and totally redo API
+  * Split `Signal` into `Stream` and `Varying` modules
+  * Remove `WebSocket` module
+  * Add `Promise` module
+
+### Channels become Inputs
+
+Rather than creating `Channels` with expressions, we now create `Inputs` with
+declarations. It works like this:
+
+```elm
+type alias Input a = { address : Address a, stream : Stream a }
+
+input actions : Input Action
+```
+
+You can then send messages to the `Address` with functions like `Stream.send`
+and `Stream.message`, or create forwarding addresses with `Stream.forward`.
+
+### Text in Collages
+
+`Graphics.Collage` now has two new functions:
+
+```elm
+text : Text -> Form
+outlinedText : LineStyle -> Text -> Form
+```
+
+These functions render text with the canvas, making things quite a bit faster.
+The underlying implementation of `Text` has also been improved dramatically.
+
+
 # 0.14
 
 ### Syntax

@@ -1,5 +1,5 @@
 {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "summary": "Elm's standard libraries",
     "repository": "http://github.com/elm-lang/core.git",
     "license": "BSD3",
@@ -11,6 +11,6 @@
     "native-modules": true,
     "dependencies": {
         "maxsnew/IO": "1.0.0 <= v < 2.0.0",
-        "deadfoxygrandpa/Elm-Test": "1.0.1 <= v < 2.0.0"
+        "deadfoxygrandpa/Elm-Test": "1.0.3 <= v < 2.0.0"
     }
 }

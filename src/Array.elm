@@ -1,4 +1,11 @@
-module Array where
+module Array
+    ( Array
+    , empty, repeat, initialize, fromList
+    , length, push, append
+    , get, set
+    , slice, toList, toIndexedList
+    , map, indexedMap, filter, foldl, foldr
+    ) where
 
 {-| A library for fast immutable arrays. The elements in an array must have the
 same type. The arrays are implemented in Relaxed Radix Balanced-Trees for fast
@@ -21,8 +28,8 @@ reads, updates, and appends.
 -}
 
 import Native.Array
-import Basics (..)
-import Maybe (..)
+import Basics exposing (..)
+import Maybe exposing (..)
 import List
 
 type Array a = Array
@@ -127,8 +134,6 @@ push = Native.Array.push
     get  5 (fromList [0,1,2]) == Nothing
     get -1 (fromList [0,1,2]) == Nothing
 
-The `(?)` operator from the `Maybe` library makes it easy to give a default
-value.
 -}
 get : Int -> Array a -> Maybe a
 get i array =

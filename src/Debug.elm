@@ -1,4 +1,8 @@
-module Debug where
+module Debug
+    ( log, crash
+    , watch, watchSummary, trace
+    ) where
+
 {-| This library is for investigating bugs or performance problems. It should
 *not* be used in production code.
 
@@ -9,7 +13,7 @@ module Debug where
 @docs watch, watchSummary, trace
 -}
 
-import Graphics.Collage (Form)
+import Graphics.Collage exposing (Form)
 import Native.Debug
 
 

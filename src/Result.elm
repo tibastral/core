@@ -1,4 +1,10 @@
-module Result where
+module Result
+    ( Result(..)
+    , map, map2, map3, map4, map5
+    , andThen
+    , toMaybe, fromMaybe, formatError
+    ) where
+
 {-| A `Result` is the result of a computation that may fail. This is a great
 way to manage errors in Elm.
 
@@ -15,7 +21,7 @@ way to manage errors in Elm.
 @docs toMaybe, fromMaybe, formatError
 -}
 
-import Maybe ( Maybe(Just, Nothing) )
+import Maybe exposing ( Maybe(Just, Nothing) )
 
 
 {-| A `Result` is either `Ok` meaning the computation succeeded, or it is an
