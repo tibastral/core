@@ -1,5 +1,10 @@
-
-module Json.Encode where
+module Json.Encode
+    ( Value(..)
+    , encode
+    , string, int, float, bool, null
+    , list, array
+    , object
+    ) where
 
 {-| Library for turning Elm values into Json values.
 
@@ -55,6 +60,8 @@ int =
     Native.Json.identity
 
 
+{-| Encode a Float. `Infinity` and `NaN` are encoded as `null`.
+-}
 float : Float -> Value
 float =
     Native.Json.identity
