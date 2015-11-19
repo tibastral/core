@@ -11,9 +11,12 @@ Elm.Native.Debug.make = function(localRuntime) {
 
 	function log(tag, value)
 	{
-		if(localRuntime.debug) {
+		if (localRuntime.debug)
+		{
 			localRuntime.debug.log(tag, value);
-		} else {
+		}
+		else
+		{
 			var msg = tag + ': ' + toString(value);
 			var process = process || {};
 			if (process.stdout)
