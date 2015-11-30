@@ -5,7 +5,7 @@ module Dict
     , filter
     , partition
     , foldl, foldr, map
-    , union, intersect, diff
+    , union, intersect, diff, unionWith, intersectWith
     , keys, values
     , toList, fromList
     ) where
@@ -27,7 +27,7 @@ equality with `(==)` is unreliable and should not be used.
 @docs isEmpty, member, get, size
 
 # Combine
-@docs union, intersect, diff
+@docs union, intersect, diff, unionWith, intersectWith
 
 # Lists
 @docs keys, values, toList, fromList
@@ -525,12 +525,72 @@ union t1 t2 =
   foldl insert t2 t1
 
 
+{-| Combine two dictionaries. If there is a collision, the given function
+determines how to break the tie. So if you want to end up with a list of all
+the values associated with a key, you would write something like this:
+
+    listUnion : Dict comparable (List a) -> Dict comparable (List a) -> Dict comparable (List a)
+    listUnion leftDict rightDict =
+      unionWith (++) leftDict rightDict
+
+Or if you wanted to define the normal `union` function it would look like this:
+
+    union leftDict rightDict =
+      unionWith (\_ left _ -> left) leftDict rightDict
+-}
+unionWith : (v -> v -> v) -> Dict comparable v -> Dict comparable v -> Dict comparable v
+unionWith func t1 t2 =
+  foldl (unionInsert func) t2 t1
+
+
+unionInsert : (v -> v -> v) -> comparable -> v -> Dict comparable v -> Dict comparable v
+unionInsert func key value dict =
+  let
+    myInsert maybeOtherValue =
+      case maybeOtherValue of
+        Nothing ->
+          Just value
+
+        Just otherValue ->
+          Just (func value otherValue)
+  in
+    update key myInsert dict
+
+
 {-| Keep a key-value pair when its key appears in the second dictionary.
 Preference is given to values in the first dictionary.
 -}
-intersect : Dict comparable v -> Dict comparable v -> Dict comparable v
+intersect : Dict comparable a -> Dict comparable b -> Dict comparable a
 intersect t1 t2 =
   filter (\k _ -> member k t2) t1
+
+
+{-| Keep entries that appear in both dictionaries. The values at each key will
+be combined with the given function. So if you want maximum value that appears
+in both:
+
+    intersectMax leftDict rightDict =
+      intersectWith max leftDict rightDict
+-}
+intersectWith : (a -> b -> c) -> Dict comparable a -> Dict comparable b -> Dict comparable c
+intersectWith func leftDict rightDict =
+  foldl (intersectWithHelp func rightDict) empty leftDict
+
+
+intersectWithHelp
+    : (a -> b -> c)
+    -> Dict comparable b
+    -> comparable
+    -> a
+    -> Dict comparable c
+    -> Dict comparable c
+intersectWithHelp func rightDict key a combinedDict =
+  case get key rightDict of
+    Nothing ->
+      combinedDict
+
+    Just b ->
+      insert key (func a b) combinedDict
 
 
 {-| Keep a key-value pair when its key does not appear in the second dictionary.
