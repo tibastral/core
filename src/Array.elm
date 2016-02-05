@@ -135,8 +135,8 @@ initializeHelp size offset height valueByIndex =
 Notice that `repeat 3 x` is the same as `initialize 3 (always x)`.
 -}
 repeat : Int -> a -> Array a
-repeat n e =
-  Debug.crash "not yet implemented"
+repeat size value =
+  initialize size (\_ -> value)
 
 
 {-| Create an array from a list.
@@ -252,7 +252,18 @@ empty =
 push : a -> Array a -> Array a
 push value array =
   Debug.crash "not yet implemented"
+{--
+  case array of
+    FullNode height subArrays ->
+      RelaxNode
+        [ 32 ^ height, 1 ]
+        [ array, RelaxNode ... Leaf [value] ]
 
+    RelaxNode totals subArrays ->
+
+    Leaf values ->
+      Leaf (pushTable value values)
+--}
 
 
 {-| Return Just the element at the index or Nothing if the index is out of range.
@@ -326,4 +337,24 @@ isEmpty array =
 -}
 append : Array a -> Array a -> Array a
 append left right =
-  Debug.crash "not yet implemented"
+  case (left, right) of
+    (FullNode leftHeight leftArrays, FullNode rightHeight rightArrays) ->
+      if leftHeight == rightHeight then
+        RelaxNode
+          [ 32 ^ height, 2 * 32 ^ height ]
+          [ leftArrays, rightArrays ]
+
+      else
+        let
+          maxHeight =
+            max leftHeight rightHeight
+        in
+          RelaxNode
+            [ 32 ^ leftHeight, 32 ^ leftHeight + 32 ^ rightHeight]
+            [ addHeight maxHeight leftArrays, addHeight maxHeight rightArrays ]
+
+
+
+
+addHeight : Int -> Array a -> Array a
+addHeight desiredHeight array =
